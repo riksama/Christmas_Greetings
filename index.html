@@ -5,20 +5,19 @@
   <title>RPJ – Holiday Greetings</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    /* ---------- GLOBAL ---------- */
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
       min-height: 100vh;
       display: flex;
-      align-items: center;
       justify-content: center;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      align-items: center;
       background: radial-gradient(circle at top, #a00000 0%, #3b0000 80%);
+      font-family: system-ui, sans-serif;
       overflow: hidden;
     }
 
-    /* ---------- SNOW ---------- */
+    /* ----- SNOW ----- */
     .snow {
       position: fixed;
       inset: 0;
@@ -30,22 +29,93 @@
       position: absolute;
       top: -10%;
       color: rgba(255, 255, 255, 0.9);
-      text-shadow: 0 0 4px rgba(0,0,0,0.35);
+      text-shadow: 0 0 4px rgba(0,0,0,0.4);
       animation-timing-function: linear;
       animation-iteration-count: infinite;
     }
 
-    /* ---------- CARD SCENE ---------- */
+    /* ----- ENVELOPE WRAPPER ----- */
+    .envelope-wrapper {
+      position: relative;
+      width: 380px;
+      height: 260px;
+      z-index: 3;
+      cursor: pointer;
+      transition: opacity 0.6s ease-out;
+    }
+
+    .envelope {
+      width: 100%;
+      height: 100%;
+      background: #8b0000;
+      border-radius: 12px;
+      position: relative;
+      overflow: visible;
+      box-shadow:
+        0 12px 28px rgba(0,0,0,0.45),
+        inset 0 0 0 1px rgba(255,255,255,0.15);
+    }
+
+    /* Envelope flap */
+    .envelope-flap {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 140px;
+      background: linear-gradient(180deg, #b71c1c, #7a0000);
+      clip-path: polygon(0 0, 100% 0, 50% 100%);
+      transform-origin: top;
+      transition: transform 0.7s ease-out;
+      box-shadow:
+        0 6px 16px rgba(0,0,0,0.4),
+        inset 0 0 0 1px rgba(255,255,255,0.2);
+    }
+
+    /* When envelope opens */
+    .envelope-wrapper.open .envelope-flap {
+      transform: rotateX(180deg);
+    }
+
+    /* Card rising animation */
+    .card-from-envelope {
+      position: absolute;
+      left: 50%;
+      bottom: 20px;
+      transform: translateX(-50%) translateY(40px);
+      opacity: 0;
+      transition: transform 0.9s ease-out, opacity 0.9s ease-out;
+      z-index: 2;
+    }
+
+    .envelope-wrapper.open .card-from-envelope {
+      transform: translateX(-50%) translateY(-260px);
+      opacity: 1;
+    }
+
+    /* Once card is out, envelope fades */
+    .envelope-wrapper.fade-out {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* ----- REAL CARD CONTAINER (hidden initially) ----- */
     .scene {
       width: 360px;
       height: 360px;
-      position: relative;
+      position: absolute;
       perspective: 1600px;
       z-index: 5;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      display: none; /* only shown after envelope disappears */
     }
+
+    .scene.visible {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ----- CARD (same as previous version) ----- */
 
     .card {
       width: 100%;
@@ -55,54 +125,43 @@
       transition: transform 0.9s cubic-bezier(0.22,0.61,0.36,1);
       cursor: pointer;
     }
+    .card.is-flipped { transform: rotateY(180deg); }
 
-    .card.is-flipped {
-      transform: rotateY(180deg);
-    }
-
-    /* ---------- CARD FACES ---------- */
     .card-face {
       position: absolute;
       inset: 0;
       border-radius: 30px;
       background: #fdf9f4;
       border: 2px solid #e8d4a2;
-      box-shadow:
-        0 14px 28px rgba(0,0,0,0.42),
-        0 0 0 1px rgba(255,255,255,0.18);
+      box-shadow: 0 14px 28px rgba(0,0,0,0.42),
+                  0 0 0 1px rgba(255,255,255,0.18);
       backface-visibility: hidden;
       overflow: hidden;
-
       display: flex;
       flex-direction: column;
       align-items: center;
-
-      padding-top: 92px; /* increased space under bow */
+      padding-top: 92px;
     }
 
-    /* Inner illumination */
     .card-face::before {
       content: "";
       position: absolute;
       inset: 12px;
       border-radius: 24px;
       background:
-        radial-gradient(circle at 12% 0%, rgba(255,255,255,0.65) 0, transparent 50%),
-        radial-gradient(circle at 88% 0%, rgba(255,255,255,0.65) 0, transparent 50%),
-        radial-gradient(circle at 0% 100%, rgba(120,40,40,0.07) 0, transparent 50%),
-        radial-gradient(circle at 100% 100%, rgba(120,40,40,0.07) 0, transparent 50%);
+        radial-gradient(circle at 12% 0%, rgba(255,255,255,.65) 0, transparent 50%),
+        radial-gradient(circle at 88% 0%, rgba(255,255,255,.65) 0, transparent 50%),
+        radial-gradient(circle at 0 100%, rgba(120,40,40,.07) 0, transparent 50%),
+        radial-gradient(circle at 100% 100%, rgba(120,40,40,.07) 0, transparent 50%);
       box-shadow:
         inset 0 0 30px rgba(255,255,255,0.85),
         inset 0 0 60px rgba(255,255,255,0.4);
       z-index: -1;
     }
 
-    .card-face-back {
-      transform: rotateY(180deg);
-      padding-top: 110px; /* more space under bow on back */
-    }
+    .card-face-back { transform: rotateY(180deg); padding-top: 110px; }
 
-    /* ---------- BOW ---------- */
+    /* Bow */
     .bow-area {
       position: absolute;
       top: 18px;
@@ -113,7 +172,6 @@
       z-index: 4;
       pointer-events: none;
     }
-
     .bow-left, .bow-right {
       width: 46px;
       height: 30px;
@@ -121,70 +179,28 @@
       background: radial-gradient(circle at 30% 50%, #aa1e2a 0, #5e0710 70%);
       filter: drop-shadow(0 4px 6px rgba(0,0,0,0.35));
     }
-
     .bow-left { margin-right: 6px; }
     .bow-right { margin-left: 6px; }
-
     .bow-knot {
       width: 28px;
       height: 28px;
       border-radius: 50%;
       background: radial-gradient(circle at 30% 30%, #ffd9a0 0, #ffb23a 40%, #c97b1f 85%);
-      box-shadow:
-        0 4px 7px rgba(0,0,0,0.4),
-        inset 0 0 10px rgba(255,255,255,0.8);
+      box-shadow: 0 4px 7px rgba(0,0,0,0.4),
+                  inset 0 0 10px rgba(255,255,255,0.8);
     }
 
-    /* ---------- ORNAMENTS (front only) ---------- */
-    .pine {
-      position: absolute;
-      width: 110px;
-      height: 110px;
-      pointer-events: none;
-      opacity: 0.18;
-      z-index: 3;
-      filter: drop-shadow(0 6px 5px rgba(0,0,0,0.25));
-    }
-
-    /* moved up & outward */
-    .pine.top-left {
-      top: 32px;
-      left: -16px;
-      transform: rotate(-16deg);
-    }
-
-    .pine.top-right {
-      top: 32px;
-      right: -16px;
-      transform: scaleX(-1) rotate(-16deg);
-    }
-
-    .pine::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(circle at 20% 30%, rgba(55,85,55,0.95), transparent 70%),
-        radial-gradient(circle at 60% 80%, rgba(35,65,35,0.85), transparent 70%),
-        radial-gradient(circle at 80% 20%, rgba(65,95,65,0.85), transparent 70%);
-      border-radius: 50%;
-    }
-
+    /* Sparkles */
     .sparkle {
       position: absolute;
-      width: 8px;
-      height: 8px;
+      width: 8px; height: 8px;
       background: radial-gradient(circle, #fffefc 0%, #ffe8a8 50%, transparent 70%);
       border-radius: 50%;
-      opacity: 0.9;
       animation: sparkle 2.2s infinite ease-in-out;
-      z-index: 5; /* raised above pine */
+      z-index: 5;
       pointer-events: none;
     }
-
-    .sparkle.small {
-      width: 5px; height: 5px;
-    }
+    .sparkle.small { width: 5px; height: 5px; }
 
     @keyframes sparkle {
       0% { transform: scale(0.4); opacity: 0.3; }
@@ -192,27 +208,23 @@
       100% { transform: scale(0.4); opacity: 0.3; }
     }
 
-    /* ---------- CENTER CONTENT ---------- */
+    /* Content */
     .center-content {
-      width: 100%;
-      padding: 0 22px 28px;
       text-align: center;
       display: flex;
       flex-direction: column;
+      gap: 20px;
+      padding: 0 22px 28px;
       align-items: center;
-      gap: 20px; /* slightly increased */
     }
 
-    /* FRONT */
     .logo-wrap {
       padding: 22px 28px;
       border-radius: 22px;
-      background: radial-gradient(circle at top, #ffffff 0, #fff8f0 85%);
-      box-shadow:
-        0 14px 35px rgba(0,0,0,0.32),
-        0 0 0 1px rgba(255,255,255,0.6);
+      background: radial-gradient(circle at top, #fff 0, #fff8f0 85%);
+      box-shadow: 0 14px 35px rgba(0,0,0,0.32),
+                  0 0 0 1px rgba(255,255,255,0.6);
     }
-
     .logo-wrap img {
       max-width: 180px;
       height: auto;
@@ -221,8 +233,8 @@
     .front-tagline {
       font-size: 20px;
       letter-spacing: 0.08em;
-      text-transform: uppercase;
       color: #b12a2f;
+      text-transform: uppercase;
       text-shadow:
         0 0 10px rgba(255,255,255,0.9),
         0 0 24px rgba(255,215,0,0.9);
@@ -232,7 +244,7 @@
     .front-underline {
       width: 80px;
       height: 2px;
-      border-radius: 999px;
+      border-radius: 99px;
       background: linear-gradient(90deg, transparent, #ffd76b, transparent);
       box-shadow: 0 0 10px rgba(255,215,107,0.9);
     }
@@ -240,16 +252,15 @@
     .front-sub {
       font-size: 12px;
       color: #805653;
-      letter-spacing: 0.14em;
       text-transform: uppercase;
+      letter-spacing: 0.14em;
     }
 
-    /* BACK CONTENT */
     .back-heading {
       font-size: 22px;
       color: #b32026;
-      letter-spacing: 0.08em;
       text-transform: uppercase;
+      letter-spacing: 0.08em;
       text-shadow:
         0 0 16px rgba(255,255,255,0.85),
         0 0 32px rgba(255,200,80,0.85);
@@ -281,7 +292,6 @@
       text-transform: uppercase;
     }
 
-    /* HINT */
     .hint {
       position: fixed;
       bottom: 20px;
@@ -291,7 +301,6 @@
       color: #fbe4da;
       letter-spacing: 0.18em;
       text-transform: uppercase;
-      pointer-events: none;
     }
   </style>
 </head>
@@ -300,7 +309,21 @@
 
   <div class="snow"></div>
 
-  <div class="scene">
+  <!-- ENVELOPE -->
+  <div class="envelope-wrapper" id="envelope">
+    <div class="envelope">
+      <div class="envelope-flap"></div>
+    </div>
+
+    <!-- Card rising animation -->
+    <div class="card-from-envelope">
+      <img src="https://i.postimg.cc/DzJgzpjj/RPJ-LOGO.jpg"
+           style="width: 160px; border-radius: 12px;">
+    </div>
+  </div>
+
+  <!-- REAL INTERACTIVE CARD -->
+  <div class="scene" id="scene">
     <div class="card" id="card">
 
       <!-- Bow -->
@@ -312,10 +335,6 @@
 
       <!-- FRONT -->
       <div class="card-face card-face-front">
-
-        <!-- Pine Leaves -->
-        <div class="pine top-left"></div>
-        <div class="pine top-right"></div>
 
         <!-- Sparkles -->
         <div class="sparkle" style="top: 42px; left: 38px;"></div>
@@ -353,44 +372,58 @@
 
   <div class="hint">Click / tap the card to flip</div>
 
-  <script>
-    /* FLIP */
-    const card = document.getElementById("card");
-    card.onclick = () => card.classList.toggle("is-flipped");
+<script>
+  /* ---------------------- SNOW ---------------------- */
+  const snowContainer = document.querySelector(".snow");
+  const FLAKES = 80;
 
-    /* SNOW */
-    const snowContainer = document.querySelector(".snow");
-    const FLAKES = 80;
+  for (let i = 0; i < FLAKES; i++) {
+    const f = document.createElement("span");
+    f.className = "snowflake";
+    f.textContent = "❄";
 
-    for (let i = 0; i < FLAKES; i++) {
-      const f = document.createElement("span");
-      f.className = "snowflake";
-      f.textContent = "❄";
+    const size = 10 + Math.random() * 16;
+    const duration = 10 + Math.random() * 18;
+    const delay = -Math.random() * duration;
+    const drift = -20 + Math.random() * 40;
 
-      const size = 10 + Math.random() * 16;
-      const duration = 10 + Math.random() * 18;
-      const delay = -Math.random() * duration;
-      const drift = -20 + Math.random() * 40;
+    f.style.left = Math.random() * 100 + "vw";
+    f.style.fontSize = size + "px";
+    f.style.opacity = 0.7 + Math.random() * 0.3;
+    f.style.animationDuration = duration + "s";
+    f.style.animationDelay = delay + "s";
 
-      f.style.left = Math.random() * 100 + "vw";
-      f.style.fontSize = size + "px";
-      f.style.opacity = 0.7 + Math.random() * 0.3;
-      f.style.animationDuration = duration + "s";
-      f.style.animationDelay = delay + "s";
+    const kf = document.createElement("style");
+    kf.textContent = `
+      @keyframes fall-${i} {
+        0%   { transform: translate(0, -10vh); }
+        100% { transform: translate(${drift}vw, 120vh); }
+      }
+    `;
+    document.head.appendChild(kf);
 
-      const kf = document.createElement("style");
-      kf.textContent = `
-        @keyframes fall-${i} {
-          0%   { transform: translate(0, -10vh); }
-          100% { transform: translate(${drift}vw, 120vh); }
-        }
-      `;
-      document.head.appendChild(kf);
+    f.style.animationName = `fall-${i}`;
+    snowContainer.appendChild(f);
+  }
 
-      f.style.animationName = `fall-${i}`;
-      snowContainer.appendChild(f);
-    }
-  </script>
+  /* ---------------------- ENVELOPE OPEN ANIMATION ---------------------- */
+  const envelope = document.getElementById("envelope");
+  const sceneEl = document.getElementById("scene");
+
+  envelope.addEventListener("click", () => {
+    envelope.classList.add("open");
+
+    // After card rises, fade envelope out and show real card
+    setTimeout(() => {
+      envelope.classList.add("fade-out");
+      sceneEl.classList.add("visible");
+    }, 900);
+  });
+
+  /* ---------------------- CARD FLIP ---------------------- */
+  const card = document.getElementById("card");
+  card.onclick = () => card.classList.toggle("is-flipped");
+</script>
 
 </body>
 </html>

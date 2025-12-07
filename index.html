@@ -1,198 +1,418 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RPJ Atlantic – Premium Christmas Card</title>
+  <meta charset="UTF-8" />
+  <title>RPJ – Holiday Greetings</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    /* ---------- GLOBAL ---------- */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-<style>
-  body {
-    margin: 0;
-    padding: 0;
-    background: radial-gradient(circle at center, #b30000, #660000 70%);
-    font-family: "Segoe UI", sans-serif;
-    overflow: hidden;
-  }
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        Arial, sans-serif;
+      background: radial-gradient(circle at top, #a00000 0%, #3b0000 80%);
+      overflow: hidden;
+      color: #3b2b24;
+    }
 
-  /* -------------------------------
-        CONTINUOUS SNOW GENERATOR
-     ------------------------------- */
-  .snowflake {
-    position: fixed;
-    color: white;
-    user-select: none;
-    pointer-events: none;
-    z-index: 2;
-  }
+    /* ---------- SNOW (behind card, continuous) ---------- */
+    .snow {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 1;
+    }
 
-  /* -------------------------------
-             CARD LAYOUT
-     ------------------------------- */
-  .card-wrapper {
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 3;
-    position: relative;
-  }
+    .snowflake {
+      position: absolute;
+      top: -10%;
+      color: rgba(255, 255, 255, 0.9);
+      text-shadow: 0 0 4px rgba(0, 0, 0, 0.35);
+      animation-name: snow-fall;
+      animation-timing-function: linear;
+      animation-iteration-count: infinite;
+    }
 
-  .card {
-    width: 390px;
-    height: 270px;
-    perspective: 1200px;
-    cursor: pointer;
-  }
+    @keyframes snow-fall {
+      to {
+        transform: translateY(120vh);
+      }
+    }
 
-  .inner-card {
-    width: 100%;
-    height: 100%;
-    transform-style: preserve-3d;
-    transition: transform 1s ease;
-    border-radius: 22px;
-    position: relative;
-  }
+    /* ---------- CARD LAYOUT ---------- */
+    .scene {
+      position: relative;
+      width: min(360px, 82vw);
+      height: min(360px, 82vw);
+      perspective: 1600px;
+      z-index: 2; /* above snow */
+    }
 
-  .card.open .inner-card {
-    transform: rotateY(180deg);
-  }
+    .card {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.9s cubic-bezier(0.22, 0.61, 0.36, 1);
+      cursor: pointer;
+    }
 
-  .front, .inside {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden;
-    border-radius: 22px;
-    box-sizing: border-box;
-  }
+    .card.is-flipped {
+      transform: rotateY(180deg);
+    }
 
-  /* -------------------------------
-          FRONT COVER (PREMIUM)
-     ------------------------------- */
-  .front {
-    background: linear-gradient(145deg, #ff9999, #ff4d4d, #d40000);
-    border: 3px solid gold;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    box-shadow: 0 15px 45px rgba(0,0,0,0.4);
-  }
+    .card-face {
+      position: absolute;
+      inset: 0;
+      border-radius: 32px;
+      background: #fdf9f4;
+      border: 2px solid #e8d4a2;
+      box-shadow:
+        0 18px 40px rgba(0, 0, 0, 0.5),
+        0 0 0 1px rgba(255, 255, 255, 0.18);
+      backface-visibility: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 32px 28px;
+      position: relative;
+      overflow: hidden;
+    }
 
-  /* Soft spotlight glow */
-  .front::after {
-    content: "";
-    position: absolute;
-    width: 85%;
-    height: 85%;
-    background: radial-gradient(circle, rgba(255,255,255,0.85), rgba(255,200,200,0.0) 70%);
-    filter: blur(18px);
-    z-index: 1;
-  }
+    /* Subtle pine-ish vignette & inner glow */
+    .card-face::before {
+      content: "";
+      position: absolute;
+      inset: 12px;
+      border-radius: 26px;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 12% 0%, rgba(255, 255, 255, 0.65) 0, transparent 50%),
+        radial-gradient(circle at 88% 0%, rgba(255, 255, 255, 0.65) 0, transparent 50%),
+        radial-gradient(circle at 0% 100%, rgba(120, 40, 40, 0.07) 0, transparent 50%),
+        radial-gradient(circle at 100% 100%, rgba(120, 40, 40, 0.07) 0, transparent 50%);
+      box-shadow:
+        inset 0 0 30px rgba(255, 255, 255, 0.85),
+        inset 0 0 60px rgba(255, 255, 255, 0.4);
+      z-index: -1;
+    }
 
-  /* Golden ambient glow ring */
-  .front::before {
-    content: "";
-    position: absolute;
-    width: 60%;
-    height: 60%;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(255,220,150,0.7), transparent 70%);
-    filter: blur(35px);
-    z-index: 1;
-  }
+    /* Faux ribbon bow at top (Paperless-style hint) */
+    .card-face::after {
+      content: "";
+      position: absolute;
+      top: 12px;
+      left: 50%;
+      width: 90px;
+      height: 34px;
+      transform: translateX(-50%);
+      background:
+        radial-gradient(circle at 0 50%, #aa1e2a 0, #5e0710 60%),
+        radial-gradient(circle at 100% 50%, #aa1e2a 0, #5e0710 60%);
+      background-size: 50% 100%;
+      background-position: left center, right center;
+      background-repeat: no-repeat;
+      filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.35));
+      border-radius: 999px;
+      box-shadow:
+        inset 0 0 12px rgba(255, 255, 255, 0.45);
+      opacity: 0.95;
+    }
 
-  /* Logo blends naturally */
-  .front img {
-    width: 170px;
-    z-index: 3;
-    border-radius: 6px;
-    filter: drop-shadow(0 0 14px rgba(255,240,200,0.7));
-  }
+    .card-face-front::after {
+      /* little “knot” in the center */
+      box-shadow:
+        inset 0 0 12px rgba(255, 255, 255, 0.45),
+        0 0 0 0 transparent;
+    }
 
-  /* -------------------------------
-              INSIDE CARD
-     ------------------------------- */
-  .inside {
-    transform: rotateY(180deg);
-    background: #ffffff;
-    border: 3px solid gold;
-    text-align: center;
-    padding-top: 32px;
-    box-shadow: 0 12px 40px rgba(0,0,0,0.35);
-  }
+    .bow-knot {
+      position: absolute;
+      top: 18px;
+      left: 50%;
+      width: 26px;
+      height: 26px;
+      transform: translateX(-50%);
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 30%, #ffd9a0 0, #ffb23a 40%, #c97b1f 85%);
+      box-shadow:
+        0 4px 7px rgba(0, 0, 0, 0.4),
+        inset 0 0 10px rgba(255, 255, 255, 0.8);
+      z-index: 3;
+    }
 
-  .inside h1 {
-    font-size: 30px;
-    margin-bottom: 6px;
-    color: #cc0000;
-    text-shadow: 0 0 12px rgba(255,180,180,0.8);
-  }
+    .card-face-back {
+      transform: rotateY(180deg);
+    }
 
-  .inside p {
-    font-size: 16px;
-    color: #444;
-  }
-</style>
+    /* ---------- FRONT CONTENT ---------- */
+
+    .front-inner {
+      margin-top: 40px; /* clear the bow */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 22px;
+    }
+
+    .logo-wrap {
+      padding: 18px 26px;
+      border-radius: 22px;
+      background: radial-gradient(circle at top, #ffffff 0, #fff8f0 80%);
+      box-shadow:
+        0 14px 35px rgba(0, 0, 0, 0.35),
+        0 0 0 1px rgba(255, 255, 255, 0.6);
+    }
+
+    .logo-wrap img {
+      display: block;
+      max-width: 180px;
+      height: auto;
+    }
+
+    .front-tagline {
+      font-size: 19px;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: #b12a2f;
+      text-align: center;
+      text-shadow:
+        0 0 10px rgba(255, 255, 255, 0.9),
+        0 0 24px rgba(255, 215, 0, 0.9);
+      font-weight: 600;
+    }
+
+    .front-sub {
+      font-size: 12px;
+      color: #805653;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    /* subtle shimmer underline */
+    .front-underline {
+      margin-top: 6px;
+      width: 80px;
+      height: 2px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, transparent, #ffd76b, transparent);
+      box-shadow: 0 0 10px rgba(255, 215, 107, 0.9);
+    }
+
+    /* ---------- BACK CONTENT ---------- */
+
+    .back-inner {
+      margin-top: 52px; /* clear bow */
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      max-width: 82%;
+    }
+
+    .back-heading {
+      font-size: 22px;
+      color: #b32026;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-shadow:
+        0 0 16px rgba(255, 255, 255, 0.85),
+        0 0 32px rgba(255, 200, 80, 0.85);
+      font-weight: 700;
+    }
+
+    .back-subtitle {
+      font-size: 13px;
+      color: #7b4a3e;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .back-body {
+      font-size: 13px;
+      color: #6f4a3d;
+      line-height: 1.5;
+    }
+
+    .back-body strong {
+      font-weight: 600;
+      color: #563327;
+    }
+
+    .back-footer {
+      margin-top: 6px;
+      font-size: 11px;
+      color: #a07b69;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .back-divider {
+      margin: 10px auto 4px;
+      width: 90px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #d8b47a, transparent);
+      box-shadow: 0 0 8px rgba(216, 180, 122, 0.8);
+    }
+
+    /* ---------- HINT TEXT ---------- */
+    .hint {
+      position: fixed;
+      bottom: 26px;
+      width: 100%;
+      text-align: center;
+      font-size: 11px;
+      color: #fbe4da;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      opacity: 0.9;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    @media (max-width: 600px) {
+      .scene {
+        width: 86vw;
+        height: 86vw;
+      }
+
+      .card-face {
+        border-radius: 26px;
+        padding: 28px 22px 24px;
+      }
+
+      .front-inner {
+        margin-top: 34px;
+        gap: 18px;
+      }
+
+      .back-inner {
+        margin-top: 44px;
+      }
+
+      .front-tagline {
+        font-size: 17px;
+      }
+
+      .back-heading {
+        font-size: 20px;
+      }
+    }
+  </style>
 </head>
-
 <body>
+  <!-- Snow layer -->
+  <div class="snow" aria-hidden="true"></div>
 
-<!-- Continuous Snow Generator -->
-<script>
-  function createSnow() {
-    const snow = document.createElement("div");
-    snow.classList.add("snowflake");
-    snow.innerHTML = "❄";
+  <!-- Bow knot (separate so it appears above both faces) -->
+  <div class="bow-knot"></div>
 
-    // Random starting position
-    snow.style.left = Math.random() * 100 + "vw";
-    snow.style.top = "-5vh";
-    snow.style.opacity = (0.5 + Math.random() * 0.5);
+  <!-- Card -->
+  <div class="scene">
+    <div class="card" id="card">
+      <!-- FRONT -->
+      <div class="card-face card-face-front">
+        <div class="front-inner">
+          <div class="logo-wrap">
+            <img
+              src="https://i.postimg.cc/DzJgzpjj/RPJ-LOGO.jpg"
+              alt="RPJ Atlantic Technologies Canada Inc. logo"
+            />
+          </div>
 
-    // Random size
-    snow.style.fontSize = (10 + Math.random() * 20) + "px";
-
-    // Falling duration
-    const fallDuration = 4 + Math.random() * 6;
-    snow.style.transition = `transform ${fallDuration}s linear`;
-
-    document.body.appendChild(snow);
-
-    // Trigger falling
-    setTimeout(() => {
-      snow.style.transform = `translateY(110vh)`;
-    }, 10);
-
-    // Remove after falling
-    setTimeout(() => {
-      snow.remove();
-    }, fallDuration * 1000);
-  }
-
-  // Generate snow continuously
-  setInterval(createSnow, 120);
-</script>
-
-<div class="card-wrapper">
-  <div class="card" onclick="this.classList.toggle('open')">
-    <div class="inner-card">
-
-      <!-- FRONT SIDE -->
-      <div class="front">
-        <img src="https://i.postimg.cc/DzJgzpjj/RPJ-LOGO.jpg" alt="RPJ Logo">
+          <div class="front-text">
+            <div class="front-tagline">
+              Season’s Greetings
+            </div>
+            <div class="front-underline"></div>
+            <div class="front-sub">
+              Tap to open your card
+            </div>
+          </div>
+        </div>
       </div>
 
-      <!-- INSIDE SIDE -->
-      <div class="inside">
-        <h1>Happy Holidays 🎄✨</h1>
-        <p>Warm greetings from</p>
-        <p><strong>RPJ Atlantic Technologies Canada Inc.</strong></p>
+      <!-- BACK -->
+      <div class="card-face card-face-back">
+        <div class="back-inner">
+          <div class="back-heading">
+            Happy Holidays 🎄✨
+          </div>
+          <div class="back-subtitle">
+            Warm greetings from
+          </div>
+          <div class="back-body">
+            <strong>RPJ Atlantic Technologies Canada Inc.</strong><br />
+            Wishing you a festive season filled with joy, good health,<br />
+            and exciting new opportunities in the year ahead.
+          </div>
+          <div class="back-divider"></div>
+          <div class="back-footer">
+            Toronto • Canada
+          </div>
+        </div>
       </div>
-
     </div>
   </div>
-</div>
 
+  <div class="hint">Click / tap the card to flip</div>
+
+  <script>
+    // ---------- CARD FLIP ----------
+    const card = document.getElementById("card");
+    card.addEventListener("click", () => {
+      card.classList.toggle("is-flipped");
+    });
+
+    // ---------- CONTINUOUS SNOW CREATION ----------
+    const snowContainer = document.querySelector(".snow");
+    const FLAKES = 80;
+
+    for (let i = 0; i < FLAKES; i++) {
+      const flake = document.createElement("span");
+      flake.className = "snowflake";
+      flake.textContent = "❄";
+
+      const size = 10 + Math.random() * 16; // px
+      const duration = 10 + Math.random() * 18; // seconds
+      const delay = -Math.random() * duration; // negative so stream already filled
+      const drift = -20 + Math.random() * 40; // horizontal drift over fall
+
+      flake.style.left = Math.random() * 100 + "vw";
+      flake.style.fontSize = size + "px";
+      flake.style.opacity = 0.7 + Math.random() * 0.3;
+      flake.style.animationDuration = duration + "s";
+      flake.style.animationDelay = delay + "s";
+      flake.style.setProperty(
+        "--drift",
+        drift.toFixed(1) + "vw"
+      );
+
+      // add a slight horizontal sway
+      flake.style.animationName = "snow-fall-" + i;
+
+      const keyframes = document.createElement("style");
+      keyframes.textContent = `
+        @keyframes snow-fall-${i} {
+          0%   { transform: translate(0, -10vh); }
+          100% { transform: translate(var(--drift), 120vh); }
+        }
+      `;
+      document.head.appendChild(keyframes);
+
+      snowContainer.appendChild(flake);
+    }
+  </script>
 </body>
 </html>

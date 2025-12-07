@@ -2,129 +2,121 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>RPJ Atlantic – Holiday Card</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RPJ Atlantic – Christmas Greetings</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
   body {
     margin: 0;
     padding: 0;
-    background: linear-gradient(180deg, #173d2f, #0c1d16, #05120d);
-    font-family: Arial, sans-serif;
+    background: linear-gradient(180deg, #173e29, #0f2418, #0a1a12);
+    font-family: "Segoe UI", Arial, sans-serif;
     overflow-x: hidden;
   }
 
-  /* Visible Snow Animation (transparent background) */
+  /* PREMIUM High-Visibility Snow */
   .snow {
     position: fixed;
     top: 0; left: 0;
     width: 100%; height: 100%;
     pointer-events: none;
-    background-image: url('https://usagif.com/wp-content/uploads/gifs/snowing-transparent-background-7.gif');
+    background-image: url("https://usagif.com/wp-content/uploads/gifs/silver-snowflake-falling-gif-73.gif");
     background-size: cover;
     opacity: 0.85;
-    z-index: 1;
+    z-index: 2;
   }
 
   .card-wrapper {
-    position: relative;
-    width: 100%;
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 20px;
   }
 
-  /* Card Container */
   .card {
     width: 380px;
     height: 260px;
     perspective: 1000px;
     cursor: pointer;
-    z-index: 2;
+    z-index: 3;
   }
 
   .inner-card {
     width: 100%;
     height: 100%;
-    background: #ffffff;
-    border-radius: 14px;
+    border-radius: 16px;
     transform-style: preserve-3d;
     transition: transform 1s;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    background: #fff;
   }
 
   .card.open .inner-card {
     transform: rotateY(180deg);
   }
 
-  /* Front Cover */
   .front, .inside {
     position: absolute;
     width: 100%;
     height: 100%;
     backface-visibility: hidden;
-    border-radius: 14px;
+    border-radius: 16px;
     padding: 20px;
     box-sizing: border-box;
   }
 
+  /* Front Cover — PREMIUM Christmas look */
   .front {
-    background: linear-gradient(145deg, #c40000, #ff3d3d, #b30000);
+    background: linear-gradient(135deg, #b30000, #e60000, #990000);
+    border: 3px solid gold;
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 4px solid #ffd28a;
+    box-shadow: 0 12px 35px rgba(0,0,0,0.45);
+    position: relative;
   }
 
   .front img {
-    width: 160px;
-    border-radius: 10px;
-    box-shadow: 0 0 15px rgba(255,225,150,0.8);
-    animation: glow 2s infinite alternate;
+    width: 150px;
+    border-radius: 12px;
+    background: white;
+    padding: 10px;
+    box-shadow: 0 0 20px rgba(255, 230, 150, 0.9);
+    animation: goldGlow 2s infinite alternate;
   }
 
-  /* Golden glow animation */
-  @keyframes glow {
-    0% { box-shadow: 0 0 10px rgba(255,230,180,0.5);}
-    100% { box-shadow: 0 0 25px rgba(255,200,90,0.9);}
+  @keyframes goldGlow {
+    0% { box-shadow: 0 0 12px rgba(255,210,100,0.5); }
+    100% { box-shadow: 0 0 26px rgba(255,185,70,1); }
   }
 
   /* Inside Page */
   .inside {
-    background: linear-gradient(180deg, #0f1214, #192328);
-    color: #f8fbff;
+    background: linear-gradient(180deg, #10301e, #1c4630, #0c2617);
+    color: #fff7dc;
     transform: rotateY(180deg);
     text-align: center;
-    border: 4px solid #ffcf6a;
+    border: 3px solid gold;
+    padding-top: 30px;
   }
 
   .inside h1 {
-    color: #ffefbf;
-    margin-top: 10px;
-    font-size: 24px;
-    text-shadow: 0 0 8px rgba(255,220,150,0.9);
+    font-size: 26px;
+    margin-bottom: 10px;
+    font-weight: 700;
+    text-shadow: 0 0 12px rgba(255,220,150,0.8);
   }
 
   .inside p {
     font-size: 15px;
-    line-height: 22px;
-    margin: 12px 0;
-    padding: 0 8px;
-    color: #e1edf5;
-  }
-
-  .footer-note {
-    margin-top: 15px;
-    font-size: 12px;
-    color: #b5c5cf;
+    margin-top: 5px;
+    opacity: 0.9;
   }
 </style>
 </head>
 
 <body>
 
-<!-- Snow Layer -->
 <div class="snow"></div>
 
 <div class="card-wrapper">
@@ -133,28 +125,14 @@
 
       <!-- FRONT -->
       <div class="front">
-        <img src="YOUR_LOGO_URL_HERE" alt="RPJ Atlantic Logo">
+        <img src="YOUR_LOGO_URL_HERE" alt="RPJ Atlantic Technologies Logo">
       </div>
 
-      <!-- INSIDE CONTENT -->
+      <!-- INSIDE -->
       <div class="inside">
-        <h1>Season’s Greetings 🎄</h1>
-
-        <p>
-          Warm Christmas wishes from all of us at  
-          <strong>RPJ Atlantic Technologies Canada Inc.</strong>
-        </p>
-
-        <p>
-          Thank you for your continued trust and partnership throughout the year.
-          May this holiday season bring joy, peace, and success.
-        </p>
-
-        <p><strong>Merry Christmas & Happy New Year!</strong></p>
-
-        <div class="footer-note">
-          Toronto, Canada • rpjtech@rogers.com
-        </div>
+        <h1>Happy Holidays 🎄✨</h1>
+        <p>Warm greetings from</p>
+        <p><strong>RPJ Atlantic Technologies Canada Inc.</strong></p>
       </div>
 
     </div>
@@ -163,4 +141,3 @@
 
 </body>
 </html>
-

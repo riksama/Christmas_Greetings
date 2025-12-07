@@ -2,27 +2,27 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>RPJ Atlantic – Christmas Greetings</title>
+<title>RPJ Atlantic – Premium Christmas Card</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
   body {
     margin: 0;
     padding: 0;
-    background: linear-gradient(180deg, #173e29, #0f2418, #0a1a12);
+    background: linear-gradient(180deg, #8b0000, #5a0000, #3b0000);
     font-family: "Segoe UI", Arial, sans-serif;
     overflow-x: hidden;
   }
 
-  /* PREMIUM High-Visibility Snow */
+  /* High-end bright snowfall */
   .snow {
     position: fixed;
     top: 0; left: 0;
     width: 100%; height: 100%;
     pointer-events: none;
-    background-image: url("https://usagif.com/wp-content/uploads/gifs/silver-snowflake-falling-gif-73.gif");
+    background-image: url("https://usagif.com/wp-content/uploads/gifs/snowing-transparent-background-17.gif");
     background-size: cover;
-    opacity: 0.85;
+    opacity: 0.9;
     z-index: 2;
   }
 
@@ -45,99 +45,91 @@
   .inner-card {
     width: 100%;
     height: 100%;
-    border-radius: 16px;
+    border-radius: 18px;
     transform-style: preserve-3d;
     transition: transform 1s;
-    background: #fff;
   }
 
   .card.open .inner-card {
     transform: rotateY(180deg);
   }
 
+  /* Both sides */
   .front, .inside {
     position: absolute;
     width: 100%;
     height: 100%;
     backface-visibility: hidden;
-    border-radius: 16px;
-    padding: 20px;
+    border-radius: 18px;
     box-sizing: border-box;
+    padding: 20px;
   }
 
-  /* Front Cover — PREMIUM Christmas look */
+  /* Premium red + gold front */
   .front {
-    background: linear-gradient(135deg, #b30000, #e60000, #990000);
-    border: 3px solid gold;
+    background: linear-gradient(145deg, #cc0000, #ff4d4d);
+    border: 3px solid #ffd700;
     display: flex;
     justify-content: center;
     align-items: center;
-    box-shadow: 0 12px 35px rgba(0,0,0,0.45);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.45);
     position: relative;
   }
 
+  /* Logo on front */
   .front img {
     width: 150px;
-    border-radius: 12px;
     background: white;
-    padding: 10px;
-    box-shadow: 0 0 20px rgba(255, 230, 150, 0.9);
-    animation: goldGlow 2s infinite alternate;
+    padding: 12px;
+    border-radius: 12px;
+    box-shadow: 0 0 25px rgba(255,220,150,0.9);
+    animation: glowGold 2s infinite alternate;
   }
 
-  @keyframes goldGlow {
-    0% { box-shadow: 0 0 12px rgba(255,210,100,0.5); }
-    100% { box-shadow: 0 0 26px rgba(255,185,70,1); }
+  @keyframes glowGold {
+    0% { box-shadow: 0 0 14px rgba(255,225,170,0.5); }
+    100% { box-shadow: 0 0 32px rgba(255,200,90,1); }
   }
 
-  /* Inside Page */
+  /* Inside Page – Premium white card */
   .inside {
-    background: linear-gradient(180deg, #10301e, #1c4630, #0c2617);
-    color: #fff7dc;
+    background: white;
+    border: 3px solid #ffd700;
     transform: rotateY(180deg);
     text-align: center;
-    border: 3px solid gold;
-    padding-top: 30px;
+    padding-top: 35px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.35);
   }
 
   .inside h1 {
-    font-size: 26px;
-    margin-bottom: 10px;
-    font-weight: 700;
-    text-shadow: 0 0 12px rgba(255,220,150,0.8);
+    font-size: 28px;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #cc0000;
+    text-shadow: 0 0 10px rgba(255,180,180,0.8);
   }
 
   .inside p {
     font-size: 15px;
+    color: #333;
     margin-top: 5px;
-    opacity: 0.9;
   }
 </style>
 </head>
 
 <body>
 
+<!-- Snow Effect -->
 <div class="snow"></div>
 
 <div class="card-wrapper">
   <div class="card" onclick="this.classList.toggle('open')">
     <div class="inner-card">
 
-      <!-- FRONT -->
+      <!-- FRONT SIDE -->
       <div class="front">
-        <img src="YOUR_LOGO_URL_HERE" alt="RPJ Atlantic Technologies Logo">
+        <img src="https://i.postimg.cc/DzJgzpjj/RPJ-LOGO.jpg" alt="RPJ Logo">
       </div>
 
-      <!-- INSIDE -->
-      <div class="inside">
-        <h1>Happy Holidays 🎄✨</h1>
-        <p>Warm greetings from</p>
-        <p><strong>RPJ Atlantic Technologies Canada Inc.</strong></p>
-      </div>
+      <!-- INSIDE SIDE -->
 
-    </div>
-  </div>
-</div>
-
-</body>
-</html>

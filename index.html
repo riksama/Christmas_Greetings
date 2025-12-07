@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>RPJ Atlantic – Holiday Card</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Snow animation (CSS-based, email-safe because this is a webpage) -->
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    background: #0b0f14;
+    font-family: Arial, sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* Falling Snow */
+  .snow {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    background-image: url('https://usagif.com/wp-content/uploads/gify/snowing-transparent-free-6.gif');
+    background-size: cover;
+    opacity: 0.45;
+    z-index: 1;
+  }
+
+  /* Card container */
+  .card-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* The folding card */
+  .card {
+    width: 380px;
+    height: 250px;
+    perspective: 1000px;
+    cursor: pointer;
+    z-index: 2;
+  }
+
+  .inner-card {
+    width: 100%;
+    height: 100%;
+    background: #ffffff;
+    border-radius: 12px;
+    transform-style: preserve-3d;
+    transition: transform 1s;
+  }
+
+  .card.open .inner-card {
+    transform: rotateY(180deg);
+  }
+
+  /* Front */
+  .front, .inside {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 12px;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+
+  .front {
+    background: linear-gradient(180deg, #ffffff, #f3f3f3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* Logo on front */
+  .front img {
+    width: 160px;
+    border-radius: 8px;
+  }
+
+  /* Inside message */
+  .inside {
+    background: #0e151a;
+    color: #e6eef6;
+    transform: rotateY(180deg);
+    text-align: center;
+  }
+
+  .inside h1 {
+    color: #00c3ff;
+    margin-top: 10px;
+    font-size: 22px;
+  }
+
+  .inside p {
+    font-size: 14px;
+    line-height: 21px;
+    margin: 10px 0;
+    padding: 0 10px;
+  }
+
+  .footer-note {
+    margin-top: 12px;
+    font-size: 12px;
+    color: #98bfcf;
+  }
+</style>
+
+</head>
+<body>
+
+<div class="snow"></div>
+
+<div class="card-wrapper">
+  <div class="card" onclick="this.classList.toggle('open')">
+    <div class="inner-card">
+
+      <!-- FRONT COVER -->
+      <div class="front">
+        <img src="https://cdn.discordapp.com/attachments/1213176376148885555/1445883646673420459/WhatsApp_Image_2025-11-29_at_00.27.04_1b468cfb.jpg?ex=6931f794&is=6930a614&hm=ac35c1cc47d1d48aa89d227bec103b6edda0ee45b516ba0411fd6882d19b70ee&" alt="RPJ Atlantic Technologies">
+      </div>
+
+      <!-- INSIDE MESSAGE -->
+      <div class="inside">
+        <h1>Season’s Greetings 🎄</h1>
+        <p>
+          Warm holiday wishes from all of us at 
+          <strong>RPJ Atlantic Technologies Canada Inc.</strong>.
+        </p>
+
+        <p>
+          Thank you for your continued trust and partnership throughout the year.
+          May this festive season bring joy, peace, and success.
+        </p>
+
+        <p><strong>Merry Christmas & Happy New Year!</strong></p>
+
+        <div class="footer-note">
+          Toronto, Canada • rpjtech@rogers.com
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

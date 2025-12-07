@@ -3,43 +3,53 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RPJ Atlantic – Christmas Card</title>
+<title>RPJ Atlantic – Premium Christmas Card</title>
 
 <style>
   body {
     margin: 0;
     padding: 0;
-    background: linear-gradient(180deg, #a30202, #7a0000, #4b0000);
+    background: radial-gradient(circle at center, #b30000, #5a0000, #2d0000 80%);
     font-family: "Segoe UI", sans-serif;
-    overflow-x: hidden;
+    overflow: hidden;
   }
 
-  /* High-quality snow animation (guaranteed to load) */
-  .snow {
+  /* ------------------------------
+     CUSTOM SNOW PARTICLE ANIMATION
+     ------------------------------ */
+
+  .snowflake {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    top: -10px;
+    color: white;
+    font-size: 1em;
+    opacity: 0.9;
     pointer-events: none;
-    background-image: url("https://i.giphy.com/media/V4NSR1NG2p0KeJJyr5/giphy.gif");
-    background-size: cover;
-    opacity: 0.35;
+    animation-name: fall;
+    animation-timing-function: linear;
     z-index: 1;
   }
 
+  @keyframes fall {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(110vh); }
+  }
+
+  /* ------------------------------
+       CARD WRAPPER
+     ------------------------------ */
   .card-wrapper {
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
     position: relative;
-    z-index: 2;
+    z-index: 3;
   }
 
   .card {
-    width: 380px;
-    height: 260px;
+    width: 390px;
+    height: 270px;
     perspective: 1200px;
     cursor: pointer;
   }
@@ -49,7 +59,7 @@
     height: 100%;
     transform-style: preserve-3d;
     transition: transform 1s ease;
-    border-radius: 20px;
+    border-radius: 22px;
     position: relative;
   }
 
@@ -57,69 +67,105 @@
     transform: rotateY(180deg);
   }
 
+  /* ------------------------------
+       FRONT & INSIDE SIDES
+     ------------------------------ */
   .front, .inside {
     position: absolute;
     width: 100%;
     height: 100%;
     backface-visibility: hidden;
-    border-radius: 20px;
-    padding: 18px;
+    border-radius: 22px;
     box-sizing: border-box;
   }
 
-  /* FRONT COVER – premium gradient + gold border */
+  /* ------------------------------
+     FRONT COVER (ULTRA PREMIUM)
+     ------------------------------ */
   .front {
-    background: linear-gradient(135deg, #ff4d4d, #cc0000);
-    border: 3px solid #ffd700;
+    background: radial-gradient(circle at center,
+                #ffffff 0%,
+                #ffe4e4 40%,
+                #ffcccc 70%,
+                #ff9999 100%);
+    border: 3px solid gold;
+    box-shadow: 0 15px 45px rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: center;
     align-items: center;
-    box-shadow: 0 12px 40px rgba(0,0,0,0.45);
+    position: relative;
   }
 
-  .front img {
-    width: 155px;
-    background: white;
-    padding: 10px 14px;
+  /* Soft golden glow behind card */
+  .front::after {
+    content: '';
+    position: absolute;
+    width: 90%;
+    height: 90%;
+    background: radial-gradient(circle, rgba(255,240,180,0.6), transparent 70%);
+    filter: blur(25px);
+    z-index: 1;
+  }
+
+  .logo-box {
+    position: relative;
+    z-index: 2;
+    background: rgba(255,255,255,0.85);
+    padding: 12px 18px;
     border-radius: 14px;
-    box-shadow: 0 0 22px rgba(255, 215, 130, 0.9);
-    animation: glow 2s infinite alternate;
+    box-shadow: 0 0 22px rgba(255,200,90,0.9);
+    backdrop-filter: blur(6px);
+    border: 2px solid gold;
   }
 
-  @keyframes glow {
-    0% { box-shadow: 0 0 14px rgba(255,215,120,0.5); }
-    100% { box-shadow: 0 0 28px rgba(255,190,70,1); }
+  .logo-box img {
+    width: 160px;
+    border-radius: 10px;
   }
 
-  /* INSIDE PAGE */
+  /* ------------------------------
+     INSIDE MESSAGE
+     ------------------------------ */
   .inside {
     transform: rotateY(180deg);
-    background: #ffffff;
-    border: 3px solid #ffd700;
+    background: white;
+    border: 3px solid gold;
     text-align: center;
-    padding-top: 34px;
+    padding-top: 35px;
     box-shadow: 0 12px 40px rgba(0,0,0,0.3);
   }
 
   .inside h1 {
-    font-size: 28px;
-    margin-bottom: 12px;
-    color: #cc0000;
-    text-shadow: 0 0 10px rgba(255,150,150,0.7);
+    font-size: 30px;
+    font-weight: bold;
+    color: #b30000;
+    text-shadow: 0 0 12px rgba(255,180,180,0.8);
   }
 
   .inside p {
-    font-size: 15px;
-    margin-top: 5px;
+    font-size: 16px;
     color: #444;
+    margin-top: 6px;
   }
-
 </style>
 </head>
 
 <body>
 
-<div class="snow"></div>
+<!-- Snow is injected automatically -->
+<script>
+  const snowCount = 70;
+  for (let i = 0; i < snowCount; i++) {
+    let snow = document.createElement("div");
+    snow.className = "snowflake";
+    snow.innerHTML = "❄";
+    snow.style.left = Math.random() * 100 + "vw";
+    snow.style.animationDuration = 4 + Math.random() * 6 + "s";
+    snow.style.fontSize = 12 + Math.random() * 18 + "px";
+    snow.style.animationDelay = Math.random() * 5 + "s";
+    document.body.appendChild(snow);
+  }
+</script>
 
 <div class="card-wrapper">
   <div class="card" onclick="this.classList.toggle('open')">
@@ -127,10 +173,12 @@
 
       <!-- FRONT SIDE -->
       <div class="front">
-        <img src="https://i.postimg.cc/DzJgzpjj/RPJ-LOGO.jpg" alt="RPJ Logo">
+        <div class="logo-box">
+          <img src="https://i.postimg.cc/DzJgzpjj/RPJ-LOGO.jpg" alt="RPJ Logo">
+        </div>
       </div>
 
-      <!-- INSIDE SIDE -->
+      <!-- INSIDE -->
       <div class="inside">
         <h1>Happy Holidays 🎄✨</h1>
         <p>Warm greetings from</p>

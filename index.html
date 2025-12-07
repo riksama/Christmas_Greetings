@@ -68,19 +68,19 @@
       background: #fdf9f4;
       border: 2px solid #e8d4a2;
       box-shadow:
-        0 18px 40px rgba(0,0,0,0.5),
+        0 14px 28px rgba(0,0,0,0.42),
         0 0 0 1px rgba(255,255,255,0.18);
       backface-visibility: hidden;
       overflow: hidden;
 
-      /* Internal alignment */
       display: flex;
       flex-direction: column;
       align-items: center;
 
-      padding-top: 80px; /* space for bow */
+      padding-top: 92px; /* increased space under bow */
     }
 
+    /* Inner illumination */
     .card-face::before {
       content: "";
       position: absolute;
@@ -99,9 +99,10 @@
 
     .card-face-back {
       transform: rotateY(180deg);
+      padding-top: 110px; /* more space under bow on back */
     }
 
-    /* ---------- BOW (now perfectly aligned & inside card) ---------- */
+    /* ---------- BOW ---------- */
     .bow-area {
       position: absolute;
       top: 18px;
@@ -134,9 +135,7 @@
         inset 0 0 10px rgba(255,255,255,0.8);
     }
 
-    /* ---------- ORNAMENTS (Option D: FRONT ONLY) ---------- */
-
-    /* Pine decoration */
+    /* ---------- ORNAMENTS (front only) ---------- */
     .pine {
       position: absolute;
       width: 110px;
@@ -147,16 +146,17 @@
       filter: drop-shadow(0 6px 5px rgba(0,0,0,0.25));
     }
 
+    /* moved up & outward */
     .pine.top-left {
-      top: 45px;
-      left: -10px;
-      transform: rotate(-14deg);
+      top: 32px;
+      left: -16px;
+      transform: rotate(-16deg);
     }
 
     .pine.top-right {
-      top: 45px;
-      right: -10px;
-      transform: scaleX(-1) rotate(-14deg);
+      top: 32px;
+      right: -16px;
+      transform: scaleX(-1) rotate(-16deg);
     }
 
     .pine::before {
@@ -170,7 +170,6 @@
       border-radius: 50%;
     }
 
-    /* Sparkle glints */
     .sparkle {
       position: absolute;
       width: 8px;
@@ -179,13 +178,12 @@
       border-radius: 50%;
       opacity: 0.9;
       animation: sparkle 2.2s infinite ease-in-out;
-      z-index: 4;
+      z-index: 5; /* raised above pine */
       pointer-events: none;
     }
 
     .sparkle.small {
-      width: 5px;
-      height: 5px;
+      width: 5px; height: 5px;
     }
 
     @keyframes sparkle {
@@ -202,16 +200,16 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 18px;
+      gap: 20px; /* slightly increased */
     }
 
-    /* FRONT CONTENT */
+    /* FRONT */
     .logo-wrap {
-      padding: 20px 28px;
+      padding: 22px 28px;
       border-radius: 22px;
       background: radial-gradient(circle at top, #ffffff 0, #fff8f0 85%);
       box-shadow:
-        0 14px 35px rgba(0,0,0,0.35),
+        0 14px 35px rgba(0,0,0,0.32),
         0 0 0 1px rgba(255,255,255,0.6);
     }
 
@@ -225,7 +223,9 @@
       letter-spacing: 0.08em;
       text-transform: uppercase;
       color: #b12a2f;
-      text-shadow: 0 0 10px rgba(255,255,255,0.9), 0 0 24px rgba(255,215,0,0.9);
+      text-shadow:
+        0 0 10px rgba(255,255,255,0.9),
+        0 0 24px rgba(255,215,0,0.9);
       font-weight: 600;
     }
 
@@ -303,14 +303,14 @@
   <div class="scene">
     <div class="card" id="card">
 
-      <!-- Aligned bow -->
+      <!-- Bow -->
       <div class="bow-area">
         <div class="bow-left"></div>
         <div class="bow-right"></div>
         <div class="bow-knot"></div>
       </div>
 
-      <!-- FRONT (with pine + sparkles) -->
+      <!-- FRONT -->
       <div class="card-face card-face-front">
 
         <!-- Pine Leaves -->
@@ -318,9 +318,9 @@
         <div class="pine top-right"></div>
 
         <!-- Sparkles -->
-        <div class="sparkle" style="top: 48px; left: 46px;"></div>
-        <div class="sparkle small" style="top: 50px; right: 54px; animation-delay: .5s;"></div>
-        <div class="sparkle small" style="bottom: 58px; left: 50%; transform:translateX(-50%); animation-delay: 1.1s;"></div>
+        <div class="sparkle" style="top: 42px; left: 38px;"></div>
+        <div class="sparkle small" style="top: 45px; right: 50px; animation-delay: .5s;"></div>
+        <div class="sparkle small" style="bottom: 62px; left: 50%; transform:translateX(-50%); animation-delay: 1.1s;"></div>
 
         <div class="center-content">
           <div class="logo-wrap">
@@ -333,7 +333,7 @@
         </div>
       </div>
 
-      <!-- BACK (clean & premium) -->
+      <!-- BACK -->
       <div class="card-face card-face-back">
         <div class="center-content">
           <div class="back-heading">Happy Holidays 🎄✨</div>

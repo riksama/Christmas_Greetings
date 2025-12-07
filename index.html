@@ -2,28 +2,30 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>RPJ Atlantic – Premium Christmas Card</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RPJ Atlantic – Christmas Card</title>
 
 <style>
   body {
     margin: 0;
     padding: 0;
-    background: linear-gradient(180deg, #8b0000, #5a0000, #3b0000);
-    font-family: "Segoe UI", Arial, sans-serif;
+    background: linear-gradient(180deg, #a30202, #7a0000, #4b0000);
+    font-family: "Segoe UI", sans-serif;
     overflow-x: hidden;
   }
 
-  /* High-end bright snowfall */
+  /* High-quality snow animation (guaranteed to load) */
   .snow {
     position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     pointer-events: none;
-    background-image: url("https://usagif.com/wp-content/uploads/gifs/snowing-transparent-background-17.gif");
+    background-image: url("https://i.giphy.com/media/V4NSR1NG2p0KeJJyr5/giphy.gif");
     background-size: cover;
-    opacity: 0.9;
-    z-index: 2;
+    opacity: 0.35;
+    z-index: 1;
   }
 
   .card-wrapper {
@@ -31,95 +33,92 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 20px;
+    position: relative;
+    z-index: 2;
   }
 
   .card {
     width: 380px;
     height: 260px;
-    perspective: 1000px;
+    perspective: 1200px;
     cursor: pointer;
-    z-index: 3;
   }
 
   .inner-card {
     width: 100%;
     height: 100%;
-    border-radius: 18px;
     transform-style: preserve-3d;
-    transition: transform 1s;
+    transition: transform 1s ease;
+    border-radius: 20px;
+    position: relative;
   }
 
   .card.open .inner-card {
     transform: rotateY(180deg);
   }
 
-  /* Both sides */
   .front, .inside {
     position: absolute;
     width: 100%;
     height: 100%;
     backface-visibility: hidden;
-    border-radius: 18px;
+    border-radius: 20px;
+    padding: 18px;
     box-sizing: border-box;
-    padding: 20px;
   }
 
-  /* Premium red + gold front */
+  /* FRONT COVER – premium gradient + gold border */
   .front {
-    background: linear-gradient(145deg, #cc0000, #ff4d4d);
+    background: linear-gradient(135deg, #ff4d4d, #cc0000);
     border: 3px solid #ffd700;
     display: flex;
     justify-content: center;
     align-items: center;
     box-shadow: 0 12px 40px rgba(0,0,0,0.45);
-    position: relative;
   }
 
-  /* Logo on front */
   .front img {
-    width: 150px;
+    width: 155px;
     background: white;
-    padding: 12px;
-    border-radius: 12px;
-    box-shadow: 0 0 25px rgba(255,220,150,0.9);
-    animation: glowGold 2s infinite alternate;
+    padding: 10px 14px;
+    border-radius: 14px;
+    box-shadow: 0 0 22px rgba(255, 215, 130, 0.9);
+    animation: glow 2s infinite alternate;
   }
 
-  @keyframes glowGold {
-    0% { box-shadow: 0 0 14px rgba(255,225,170,0.5); }
-    100% { box-shadow: 0 0 32px rgba(255,200,90,1); }
+  @keyframes glow {
+    0% { box-shadow: 0 0 14px rgba(255,215,120,0.5); }
+    100% { box-shadow: 0 0 28px rgba(255,190,70,1); }
   }
 
-  /* Inside Page – Premium white card */
+  /* INSIDE PAGE */
   .inside {
-    background: white;
-    border: 3px solid #ffd700;
     transform: rotateY(180deg);
+    background: #ffffff;
+    border: 3px solid #ffd700;
     text-align: center;
-    padding-top: 35px;
-    box-shadow: 0 12px 40px rgba(0,0,0,0.35);
+    padding-top: 34px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.3);
   }
 
   .inside h1 {
     font-size: 28px;
-    margin-bottom: 8px;
-    font-weight: bold;
+    margin-bottom: 12px;
     color: #cc0000;
-    text-shadow: 0 0 10px rgba(255,180,180,0.8);
+    text-shadow: 0 0 10px rgba(255,150,150,0.7);
   }
 
   .inside p {
     font-size: 15px;
-    color: #333;
     margin-top: 5px;
+    color: #444;
   }
+
 </style>
 </head>
 
 <body>
 
-<!-- Snow Effect -->
 <div class="snow"></div>
 
 <div class="card-wrapper">
@@ -132,4 +131,15 @@
       </div>
 
       <!-- INSIDE SIDE -->
+      <div class="inside">
+        <h1>Happy Holidays 🎄✨</h1>
+        <p>Warm greetings from</p>
+        <p><strong>RPJ Atlantic Technologies Canada Inc.</strong></p>
+      </div>
 
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

@@ -49,13 +49,16 @@
       }
     }
 
-    /* ---------- CARD LAYOUT ---------- */
+    /* ---------- FIXED CARD LAYOUT ---------- */
     .scene {
+      width: 360px;
+      height: 360px;
       position: relative;
-      width: min(360px, 82vw);
-      height: min(360px, 82vw);
+      display: flex;
+      justify-content: center;
+      align-items: center;
       perspective: 1600px;
-      z-index: 2; /* above snow */
+      z-index: 5;
     }
 
     .card {
@@ -71,6 +74,7 @@
       transform: rotateY(180deg);
     }
 
+    /* ------- UNIFORM CARD FACES (CRITICAL FIX) ------- */
     .card-face {
       position: absolute;
       inset: 0;
@@ -81,16 +85,17 @@
         0 18px 40px rgba(0, 0, 0, 0.5),
         0 0 0 1px rgba(255, 255, 255, 0.18);
       backface-visibility: hidden;
+
+      /* FIX: BOTH SIDES USE IDENTICAL CENTERING */
       display: flex;
-      flex-direction: column;
-      align-items: center;
       justify-content: center;
-      padding: 32px 32px 28px;
-      position: relative;
+      align-items: center;
+
+      padding: 0;
       overflow: hidden;
     }
 
-    /* Subtle pine-ish vignette & inner glow */
+    /* Inner glow & vignette */
     .card-face::before {
       content: "";
       position: absolute;
@@ -108,64 +113,60 @@
       z-index: -1;
     }
 
-    /* Faux ribbon bow at top (Paperless-style hint) */
-    .card-face::after {
-      content: "";
+    /* ---------- MOVE THE BOW *INSIDE* THE CARD ---------- */
+    .bow-area {
       position: absolute;
       top: 12px;
       left: 50%;
-      width: 90px;
-      height: 34px;
       transform: translateX(-50%);
-      background:
-        radial-gradient(circle at 0 50%, #aa1e2a 0, #5e0710 60%),
-        radial-gradient(circle at 100% 50%, #aa1e2a 0, #5e0710 60%);
-      background-size: 50% 100%;
-      background-position: left center, right center;
-      background-repeat: no-repeat;
-      filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.35));
-      border-radius: 999px;
-      box-shadow:
-        inset 0 0 12px rgba(255, 255, 255, 0.45);
-      opacity: 0.95;
+      width: 120px;
+      height: 44px;
+      z-index: 4;
+      pointer-events: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
-    .card-face-front::after {
-      /* little “knot” in the center */
-      box-shadow:
-        inset 0 0 12px rgba(255, 255, 255, 0.45),
-        0 0 0 0 transparent;
+    .bow-left,
+    .bow-right {
+      width: 44px;
+      height: 28px;
+      border-radius: 50px;
+      background: radial-gradient(circle at 30% 50%, #aa1e2a 0, #5e0710 70%);
+      filter: drop-shadow(0 4px 5px rgba(0, 0, 0, 0.35));
     }
+
+    .bow-left { margin-right: 6px; }
+    .bow-right { margin-left: 6px; }
 
     .bow-knot {
-      position: absolute;
-      top: 18px;
-      left: 50%;
       width: 26px;
       height: 26px;
-      transform: translateX(-50%);
-      border-radius: 999px;
+      border-radius: 50%;
       background: radial-gradient(circle at 30% 30%, #ffd9a0 0, #ffb23a 40%, #c97b1f 85%);
       box-shadow:
         0 4px 7px rgba(0, 0, 0, 0.4),
         inset 0 0 10px rgba(255, 255, 255, 0.8);
-      z-index: 3;
     }
 
-    .card-face-back {
-      transform: rotateY(180deg);
+    /* ---------- UNIFIED CONTENT WRAPPER ---------- */
+    .center-content {
+      width: 100%;
+      height: 100%;
+      padding-top: 70px; /* leaves room for bow */
+      padding-left: 22px;
+      padding-right: 22px;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      text-align: center;
+      gap: 18px;
     }
 
     /* ---------- FRONT CONTENT ---------- */
-
-    .front-inner {
-      margin-top: 40px; /* clear the bow */
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 22px;
-    }
-
     .logo-wrap {
       padding: 18px 26px;
       border-radius: 22px;
@@ -176,7 +177,6 @@
     }
 
     .logo-wrap img {
-      display: block;
       max-width: 180px;
       height: auto;
     }
@@ -186,7 +186,6 @@
       letter-spacing: 0.09em;
       text-transform: uppercase;
       color: #b12a2f;
-      text-align: center;
       text-shadow:
         0 0 10px rgba(255, 255, 255, 0.9),
         0 0 24px rgba(255, 215, 0, 0.9);
@@ -200,9 +199,7 @@
       text-transform: uppercase;
     }
 
-    /* subtle shimmer underline */
     .front-underline {
-      margin-top: 6px;
       width: 80px;
       height: 2px;
       border-radius: 999px;
@@ -211,14 +208,8 @@
     }
 
     /* ---------- BACK CONTENT ---------- */
-
-    .back-inner {
-      margin-top: 52px; /* clear bow */
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      max-width: 82%;
+    .card-face-back {
+      transform: rotateY(180deg);
     }
 
     .back-heading {
@@ -251,7 +242,6 @@
     }
 
     .back-footer {
-      margin-top: 6px;
       font-size: 11px;
       color: #a07b69;
       letter-spacing: 0.06em;
@@ -259,14 +249,13 @@
     }
 
     .back-divider {
-      margin: 10px auto 4px;
       width: 90px;
       height: 1px;
       background: linear-gradient(90deg, transparent, #d8b47a, transparent);
       box-shadow: 0 0 8px rgba(216, 180, 122, 0.8);
     }
 
-    /* ---------- HINT TEXT ---------- */
+    /* ---------- HINT ---------- */
     .hint {
       position: fixed;
       bottom: 26px;
@@ -277,92 +266,55 @@
       letter-spacing: 0.18em;
       text-transform: uppercase;
       opacity: 0.9;
-      z-index: 2;
       pointer-events: none;
-    }
-
-    @media (max-width: 600px) {
-      .scene {
-        width: 86vw;
-        height: 86vw;
-      }
-
-      .card-face {
-        border-radius: 26px;
-        padding: 28px 22px 24px;
-      }
-
-      .front-inner {
-        margin-top: 34px;
-        gap: 18px;
-      }
-
-      .back-inner {
-        margin-top: 44px;
-      }
-
-      .front-tagline {
-        font-size: 17px;
-      }
-
-      .back-heading {
-        font-size: 20px;
-      }
     }
   </style>
 </head>
+
 <body>
+
   <!-- Snow layer -->
   <div class="snow" aria-hidden="true"></div>
-
-  <!-- Bow knot (separate so it appears above both faces) -->
-  <div class="bow-knot"></div>
 
   <!-- Card -->
   <div class="scene">
     <div class="card" id="card">
+
+      <!-- BOW NOW INSIDE THE CARD -->
+      <div class="bow-area">
+        <div class="bow-left"></div>
+        <div class="bow-right"></div>
+        <div class="bow-knot"></div>
+      </div>
+
       <!-- FRONT -->
       <div class="card-face card-face-front">
-        <div class="front-inner">
+        <div class="center-content">
           <div class="logo-wrap">
-            <img
-              src="https://i.postimg.cc/DzJgzpjj/RPJ-LOGO.jpg"
-              alt="RPJ Atlantic Technologies Canada Inc. logo"
-            />
+            <img src="https://i.postimg.cc/DzJgzpjj/RPJ-LOGO.jpg" alt="RPJ Logo">
           </div>
 
-          <div class="front-text">
-            <div class="front-tagline">
-              Season’s Greetings
-            </div>
-            <div class="front-underline"></div>
-            <div class="front-sub">
-              Tap to open your card
-            </div>
-          </div>
+          <div class="front-tagline">Season’s Greetings</div>
+          <div class="front-underline"></div>
+          <div class="front-sub">Tap to open your card</div>
         </div>
       </div>
 
       <!-- BACK -->
       <div class="card-face card-face-back">
-        <div class="back-inner">
-          <div class="back-heading">
-            Happy Holidays 🎄✨
-          </div>
-          <div class="back-subtitle">
-            Warm greetings from
-          </div>
+        <div class="center-content">
+          <div class="back-heading">Happy Holidays 🎄✨</div>
+          <div class="back-subtitle">Warm greetings from</div>
+
           <div class="back-body">
-            <strong>RPJ Atlantic Technologies Canada Inc.</strong><br />
-            Wishing you a festive season filled with joy, good health,<br />
-            and exciting new opportunities in the year ahead.
+            <strong>RPJ Atlantic Technologies Canada Inc.</strong><br>
           </div>
+
           <div class="back-divider"></div>
-          <div class="back-footer">
-            Toronto • Canada
-          </div>
+          <div class="back-footer">Toronto • Canada</div>
         </div>
       </div>
+
     </div>
   </div>
 
@@ -371,11 +323,9 @@
   <script>
     // ---------- CARD FLIP ----------
     const card = document.getElementById("card");
-    card.addEventListener("click", () => {
-      card.classList.toggle("is-flipped");
-    });
+    card.onclick = () => card.classList.toggle("is-flipped");
 
-    // ---------- CONTINUOUS SNOW CREATION ----------
+    // ---------- CONTINUOUS SNOW ----------
     const snowContainer = document.querySelector(".snow");
     const FLAKES = 80;
 
@@ -384,35 +334,31 @@
       flake.className = "snowflake";
       flake.textContent = "❄";
 
-      const size = 10 + Math.random() * 16; // px
-      const duration = 10 + Math.random() * 18; // seconds
-      const delay = -Math.random() * duration; // negative so stream already filled
-      const drift = -20 + Math.random() * 40; // horizontal drift over fall
+      const size = 10 + Math.random() * 16;
+      const duration = 10 + Math.random() * 18;
+      const delay = -Math.random() * duration;
+      const drift = -20 + Math.random() * 40;
 
       flake.style.left = Math.random() * 100 + "vw";
       flake.style.fontSize = size + "px";
       flake.style.opacity = 0.7 + Math.random() * 0.3;
       flake.style.animationDuration = duration + "s";
       flake.style.animationDelay = delay + "s";
-      flake.style.setProperty(
-        "--drift",
-        drift.toFixed(1) + "vw"
-      );
-
-      // add a slight horizontal sway
+      flake.style.setProperty("--drift", drift + "vw");
       flake.style.animationName = "snow-fall-" + i;
 
-      const keyframes = document.createElement("style");
-      keyframes.textContent = `
+      const style = document.createElement("style");
+      style.textContent = `
         @keyframes snow-fall-${i} {
           0%   { transform: translate(0, -10vh); }
           100% { transform: translate(var(--drift), 120vh); }
         }
       `;
-      document.head.appendChild(keyframes);
+      document.head.appendChild(style);
 
       snowContainer.appendChild(flake);
     }
   </script>
+
 </body>
 </html>
